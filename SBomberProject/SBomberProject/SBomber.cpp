@@ -10,6 +10,7 @@
 #include "House.h"
 #include "ScreenSingleton.h"
 #include "FileLoggerSingleton.h"
+#include "Command.h"
 
 using namespace std;
 
@@ -158,7 +159,7 @@ void SBomber::CheckDestoyableObjects(Bomb * pBomb)
 
 void SBomber::DeleteDynamicObj(DynamicObject* pObj)
 {
-    auto it = vecDynamicObj.begin();
+    /*auto it = vecDynamicObj.begin();
     for (; it != vecDynamicObj.end(); it++)
     {
         if (*it == pObj)
@@ -166,12 +167,13 @@ void SBomber::DeleteDynamicObj(DynamicObject* pObj)
             vecDynamicObj.erase(it);
             break;
         }
-    }
+    }*/
+    invoker.DeleteDynamic(pObj, &vecDynamicObj);
 }
 
 void SBomber::DeleteStaticObj(GameObject* pObj)
 {
-    auto it = vecStaticObj.begin();
+    /*auto it = vecStaticObj.begin();
     for (; it != vecStaticObj.end(); it++)
     {
         if (*it == pObj)
@@ -179,7 +181,8 @@ void SBomber::DeleteStaticObj(GameObject* pObj)
             vecStaticObj.erase(it);
             break;
         }
-    }
+    }*/
+    invoker.DeleteStatic(pObj, &vecStaticObj);
 }
 
 vector<DestroyableGroundObject*> SBomber::FindDestoyableGroundObjects() const
@@ -348,7 +351,9 @@ void SBomber::TimeFinish()
 
 void SBomber::DropBomb()
 {
-    if (bombsNumber > 0)
+    Plane* pPlane = FindPlane();
+    invoker.DropBomb(pPlane, &vecDynamicObj, &bombsNumber, &score);
+    /*if (bombsNumber > 0)
     {
         FileLoggerSingleton::getInstance().WriteToLog(string(__FUNCTION__) + " was invoked");
 
@@ -365,5 +370,5 @@ void SBomber::DropBomb()
         vecDynamicObj.push_back(pBomb);
         bombsNumber--;
         score -= Bomb::BombCost;
-    }
+    }*/
 }
