@@ -4,7 +4,7 @@
 
 using namespace std;
 
-
+/*
 LoggerProxy::LoggerProxy()
 {
 	loggerproxy = new FileLoggerSingleton();
@@ -32,4 +32,4 @@ void __fastcall LoggerProxy::WriteToLog(const std::string& str,int n)
 void __fastcall LoggerProxy::WriteToLog(const std::string& str,double d)
 {
 	loggerproxy->WriteToLog(to_string(count++) + str, d);
-}
+}*/

@@ -32,7 +32,7 @@ SBomber::SBomber()
     p->SetPos(5, 10);
     vecDynamicObj.push_back(p);
 
-    LevelGUI* pGUI = new LevelGUI;
+    AbstractLevelGUI* pGUI = new LevelGUI1;
     pGUI->SetParam(passedTime, fps, bombsNumber, score);
     const uint16_t maxX = ScreenSingleton::getInstance().GetMaxX();
     const uint16_t maxY = ScreenSingleton::getInstance().GetMaxY();
@@ -229,7 +229,13 @@ Ground* SBomber::FindGround() const
 vector<Bomb*> SBomber::FindAllBombs() const
 {
     vector<Bomb*> vecBombs;
-
+    BombIterator it (vecDynamicObj);
+    BombIterator end(vecDynamicObj); end.reset();
+    for (; it != end; ++it)
+    {
+        vecBombs.push_back(dynamic_cast<Bomb*>(*it));
+    }
+    /*
     for (size_t i = 0; i < vecDynamicObj.size(); i++)
     {
         Bomb* pBomb = dynamic_cast<Bomb*>(vecDynamicObj[i]);
@@ -237,7 +243,7 @@ vector<Bomb*> SBomber::FindAllBombs() const
         {
             vecBombs.push_back(pBomb);
         }
-    }
+    }*/
 
     return vecBombs;
 }
@@ -256,11 +262,11 @@ Plane* SBomber::FindPlane() const
     return nullptr;
 }
 
-LevelGUI* SBomber::FindLevelGUI() const
+AbstractLevelGUI* SBomber::FindLevelGUI() const
 {
     for (size_t i = 0; i < vecStaticObj.size(); i++)
     {
-        LevelGUI* p = dynamic_cast<LevelGUI*>(vecStaticObj[i]);
+        AbstractLevelGUI* p = dynamic_cast<AbstractLevelGUI*>(vecStaticObj[i]);
         if (p != nullptr)
         {
             return p;
@@ -278,7 +284,7 @@ void SBomber::ProcessKBHit()
     {
         c = _getch();
     }
-
+    AbstractLevelGUI* pGui;
     FileLoggerSingleton::getInstance().WriteToLog(string(__FUNCTION__) + " was invoked. key = ", c);
 
     switch (c) {
@@ -303,9 +309,26 @@ void SBomber::ProcessKBHit()
         DropBomb();
         break;
 
+    case '1':
+        pGui = new LevelGUI1;
+        SetGui(pGui);
+        break;
+
+    case '2':
+        pGui = new LevelGUI2;
+        SetGui(pGui);
+        break;
+
     default:
         break;
     }
+}
+
+void SBomber::SetGui(AbstractLevelGUI* newgui)
+{
+    AbstractLevelGUI* pGui = FindLevelGUI();
+    invoker.DeleteStatic(pGui, &vecStaticObj);
+    vecStaticObj.push_back(newgui);
 }
 
 void SBomber::DrawFrame()
@@ -372,3 +395,4 @@ void SBomber::DropBomb()
         score -= Bomb::BombCost;
     }*/
 }
+
