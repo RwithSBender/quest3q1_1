@@ -63,6 +63,7 @@ SBomber::SBomber()
     House * pHouse = new House;
     pHouse->SetWidth(13);
     pHouse->SetPos(80, groundY - 1);
+    HouseBuilderA g(pHouse);
     vecStaticObj.push_back(pHouse);
 
     /*
