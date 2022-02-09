@@ -8,6 +8,7 @@
 #include "Ground.h"
 #include "Tank.h"
 #include "Command.h"
+#include "Visitor.h"
 
 class SBomber
 {
@@ -52,6 +53,8 @@ private:
     uint64_t startTime, finishTime, passedTime;
     uint16_t bombsNumber, deltaTime, fps;
     int16_t score;
+
+    LogVisitor logVis;
 
     void SetGui(AbstractLevelGUI* newgui);
     class BombIterator

@@ -84,6 +84,7 @@ SBomber::~SBomber()
         {
             delete vecDynamicObj[i];
         }
+
     }
 
     for (size_t i = 0; i < vecStaticObj.size(); i++)
@@ -103,7 +104,19 @@ void SBomber::MoveObjects()
     {
         if (vecDynamicObj[i] != nullptr)
         {
+
             vecDynamicObj[i]->Move(deltaTime);
+            //
+            auto dObj = dynamic_cast<Bomb*>(vecDynamicObj[i]);
+            if (dObj != nullptr)
+            {
+                dObj->Accept(logVis);
+            }
+            auto dObj1 = dynamic_cast<Plane*>(vecDynamicObj[i]);
+            if (dObj != nullptr)
+            {
+                dObj->Accept(logVis);
+            }
         }
     }
 };
