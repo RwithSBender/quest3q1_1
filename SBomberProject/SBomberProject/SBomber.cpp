@@ -53,11 +53,13 @@ SBomber::SBomber()
     Tank* pTank = new Tank;
     pTank->SetWidth(13);
     pTank->SetPos(30, groundY - 1);
+    pTank->add_gui(pGUI);
     vecStaticObj.push_back(pTank);
 
     pTank = new Tank;
     pTank->SetWidth(13);
     pTank->SetPos(50, groundY - 1);
+    pTank->add_gui(pGUI);
     vecStaticObj.push_back(pTank);
 
     House * pHouse = new House;

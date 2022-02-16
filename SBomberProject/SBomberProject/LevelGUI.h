@@ -3,7 +3,11 @@
 #include <stdint.h>
 
 #include "GameObject.h"
+#include <string>
+#include <vector>
+#include <ctime>
 
+using namespace std;
 /*class MySoftwareBase
 {
 private:
@@ -37,7 +41,7 @@ public:
     virtual void __fastcall SetHeight(uint16_t heightN) = 0;
     virtual inline uint16_t GetFinishX() const = 0;
     virtual inline void SetFinishX(uint16_t finishXN) = 0;
-
+    virtual void addMessage(string s) = 0;
 };
 
 class LevelGUI1 : public AbstractLevelGUI {
@@ -51,8 +55,12 @@ public:
 
     inline uint16_t GetFinishX() const { return finishX; }
     inline void SetFinishX(uint16_t finishXN) { finishX = finishXN; }
+    virtual void addMessage(string s) { messages.push_back(s); }
 
     void Draw() const override;
+    
+    vector<string> messages;
+    time_t lasttime;
 
 protected:
 
@@ -62,6 +70,7 @@ protected:
     uint64_t passedTime, fps;
     uint16_t bombsNumber;
     int16_t score;
+
 };
 
 class LevelGUI2 : public AbstractLevelGUI {
@@ -75,8 +84,12 @@ public:
 
     inline uint16_t GetFinishX() const { return finishX; }
     inline void SetFinishX(uint16_t finishXN) { finishX = finishXN; }
+    virtual void addMessage(string s) { messages.push_back(s); }
 
     void Draw() const override;
+
+    vector<string> messages;
+    time_t time;
 
 protected:
 
