@@ -16,10 +16,10 @@ using namespace std;
 
 namespace MyTools {
 
-    //ofstream logOut;
+    ofstream logOut;
 
     //=============================================================================================
-    /*
+
     void ClrScr()
     {
         system("cls");
@@ -67,10 +67,10 @@ namespace MyTools {
         HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
         SetConsoleTextAttribute(hConsole, color); // color =  (WORD)((BackgroundColor << 4) | TextColor))
     }
-    */
+
     //=============================================================================================
-    /*
-    void __fastcall OpenLogFile(const string& FN)
+
+    /*void __fastcall OpenLogFile(const string& FN)
     {
         logOut.open(FN, ios_base::out);
     }
@@ -115,9 +115,9 @@ namespace MyTools {
         {
             logOut << GetCurDateTime() << " - " << str << d << endl;
         }
-    }
+    }*/
 
     //=============================================================================================
-    */
+
 
 } // namespace MyTools
