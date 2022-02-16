@@ -14,6 +14,8 @@ public:
 
 	void Draw() const override;
 
+	House* clone() const { return new House(*this); };
+
 private:
 
 	const uint16_t score = 40;

@@ -41,6 +41,7 @@ public:
     std::vector<Bomb*> FindAllBombs() const;
 
     void DropBomb();
+    void CloneObj();
 
     std::vector<DynamicObject*> vecDynamicObj;
     std::vector<GameObject*> vecStaticObj;
@@ -83,7 +84,6 @@ private:
     LevelGUI* FindLevelGUI() const { m_sbomb->FindLevelGUI(); };
     std::vector<DestroyableGroundObject*> FindDestoyableGroundObjects() const { m_sbomb->FindDestoyableGroundObjects(); };
     std::vector<Bomb*> FindAllBombs() const { m_sbomb->FindAllBombs(); };
-
     void DropBomb() { m_sbomb->DropBomb(); };
 
     //std::vector<DynamicObject*> vecDynamicObj;
