@@ -4,6 +4,7 @@
 #include "Tank.h"
 #include "MyTools.h"
 #include "ScreenSingleton.h"
+#include <string>
 
 using namespace std;
 
@@ -41,4 +42,9 @@ void Tank::Draw() const
 	cout << "    #####";
 	ScreenSingleton::getInstance().GotoXY(x,y);
 	cout << " ###########";
+	if (rand() % 100 < 20)
+	{
+		string str = "Miss";
+		mediator->AddMessage(str);
+	}
 }

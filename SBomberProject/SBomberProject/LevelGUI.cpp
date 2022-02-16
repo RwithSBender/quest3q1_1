@@ -3,8 +3,31 @@
 #include "LevelGUI.h"
 #include "MyTools.h"
 #include "ScreenSingleton.h"
+#include "Tank.h"
+#include <vector>
+#include <string>
+#include <time.h>
 
 using namespace std;
+
+
+/*class Mediator {
+public:
+
+    void AddMessage(Tank* pNewTank) { v.push_back(pNewTank); };
+
+    void Notify(Tank* from, string info) {
+        for (Tank* pElem : v)
+        {
+            if (pElem != from)
+                pElem->BeNotified(info);
+        }
+    }
+
+private:
+    vector<Tank*> v;
+};*/
+
 
 void LevelGUI1::Draw() const
 {
@@ -40,6 +63,7 @@ void LevelGUI1::Draw() const
     cout << "BombsNum: " << bombsNumber;
     ScreenSingleton::getInstance().GotoXY(62, 1);
     cout << "Score: " << score;
+    
 }
 
 void __fastcall LevelGUI1::SetParam(uint64_t passedTimeNew, uint64_t fpsNew, uint16_t bombsNumberNew, int16_t scoreNew)
