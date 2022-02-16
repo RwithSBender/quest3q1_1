@@ -7,16 +7,14 @@
 #include "Bomb.h"
 #include "Ground.h"
 #include "Tank.h"
-#include "Command.h"
-#include "Visitor.h"
 
-class SBomber
+class SBomberImpl
 {
 public:
 
-    SBomber();
-    ~SBomber();
-    
+    SBomberImpl();
+    ~SBomberImpl();
+
     inline bool GetExitFlag() const { return exitFlag; }
 
     void ProcessKBHit();
@@ -27,19 +25,18 @@ public:
     void MoveObjects();
     void CheckObjects();
 
-private:
+    //
 
     void CheckPlaneAndLevelGUI();
     void CheckBombsAndGround();
     void __fastcall CheckDestoyableObjects(Bomb* pBomb);
 
-    void __fastcall DeleteDynamicObj(DynamicObject * pBomb);
+    void __fastcall DeleteDynamicObj(DynamicObject* pBomb);
     void __fastcall DeleteStaticObj(GameObject* pObj);
 
-    Ground * FindGround() const;
-    Plane * FindPlane() const;
-    AbstractLevelGUI * FindLevelGUI() const;
-    Invoker invoker;
+    Ground* FindGround() const;
+    Plane* FindPlane() const;
+    LevelGUI* FindLevelGUI() const;
     std::vector<DestroyableGroundObject*> FindDestoyableGroundObjects() const;
     std::vector<Bomb*> FindAllBombs() const;
 
@@ -47,86 +44,55 @@ private:
 
     std::vector<DynamicObject*> vecDynamicObj;
     std::vector<GameObject*> vecStaticObj;
-    
+
     bool exitFlag;
 
     uint64_t startTime, finishTime, passedTime;
     uint16_t bombsNumber, deltaTime, fps;
     int16_t score;
-
-    LogVisitor logVis;
-
-    void SetGui(AbstractLevelGUI* newgui);
-    class BombIterator
-    {
-        vector<DynamicObject*> vecBombs;
-        int curIndex;
-        Bomb* ptr;
-    public:
-        BombIterator(vector<DynamicObject* > ref) : vecBombs(ref), curIndex(-1), ptr(nullptr) { ++(*this); }
-        void reset() { curIndex = -1; ptr = nullptr; }
-
-        BombIterator& operator++ () // префиксный инкремент
-        {
-            curIndex++;
-            if (curIndex == -1)
-                curIndex = 0;
-            for (; curIndex < vecBombs.size(); curIndex++)
-            {
-                Bomb* pBomb = dynamic_cast<Bomb*>(vecBombs[curIndex]);
-                if (pBomb != nullptr)
-                {
-                    ptr = pBomb;
-                    break;
-                }
-            }
-            if (curIndex == vecBombs.size())
-            {
-                curIndex = -1;
-                ptr = nullptr;
-            }
-            return *this;
-        }
-        BombIterator& operator-- () // префексный декремент
-        {
-            if (curIndex == -1)
-                curIndex = vecBombs.size() - 1;
-
-            for (; curIndex >= 0; curIndex--)
-            {
-                /*if (vecBombs[curIndex] % 2 == 0)
-                {
-                    ptr = &vecBombs[curIndex];
-                    break;
-                }*/
-            }
-            if (curIndex == -1)
-            {
-                ptr = nullptr;
-            }
-            return *this;
-        }
-        DynamicObject* operator*() // операция разыменования итератора
-        {
-            return vecBombs.at(curIndex);
-        }
-        bool operator==(BombIterator it) // проверка на лог. равенство итераторов
-        {
-            if (curIndex == it.curIndex &&
-                ptr == it.ptr &&
-                vecBombs == it.vecBombs)
-            {
-                return true;
-            }
-            return false;
-        }
-        bool operator!=(BombIterator it) // проверка на лог. неравенство
-        {
-            return !(*this == it);
-        }
-    };
-        // получаем итератор настроенный на начало массива
-    BombIterator begin(vector<DynamicObject*> vecDynamicOb) { BombIterator it(vecDynamicOb); return it; }
-        // итератор в конечном состоянии
-    BombIterator end(vector<DynamicObject*> vecDynamicOb) { BombIterator it(vecDynamicOb); it.reset(); return it; }
 };
+
+class SBomber
+{
+public:
+
+    SBomber() { m_sbomb = new SBomberImpl; };
+    ~SBomber() { delete m_sbomb; };
+    
+    inline bool GetExitFlag() const { return m_sbomb->GetExitFlag(); }
+
+    void ProcessKBHit() { m_sbomb->ProcessKBHit(); };
+    void TimeStart() { m_sbomb->TimeStart(); };
+    void TimeFinish() { m_sbomb->TimeFinish(); };
+
+    void DrawFrame() { m_sbomb->DrawFrame(); };
+    void MoveObjects() { m_sbomb->MoveObjects(); };
+    void CheckObjects();
+
+private:
+    SBomberImpl* m_sbomb;
+    void CheckPlaneAndLevelGUI() { m_sbomb->CheckPlaneAndLevelGUI(); }
+    void CheckBombsAndGround() { m_sbomb->CheckBombsAndGround(); }
+    void __fastcall CheckDestoyableObjects(Bomb* pBomb) { m_sbomb->CheckDestoyableObjects(pBomb); }
+
+    void __fastcall DeleteDynamicObj(DynamicObject* pBomb) { m_sbomb->DeleteDynamicObj(pBomb); };
+    void __fastcall DeleteStaticObj(GameObject* pObj) { m_sbomb->DeleteStaticObj(pObj); };
+
+    Ground* FindGround() const { m_sbomb->FindGround(); };
+    Plane* FindPlane() const { m_sbomb->FindPlane(); };
+    LevelGUI* FindLevelGUI() const { m_sbomb->FindLevelGUI(); };
+    std::vector<DestroyableGroundObject*> FindDestoyableGroundObjects() const { m_sbomb->FindDestoyableGroundObjects(); };
+    std::vector<Bomb*> FindAllBombs() const { m_sbomb->FindAllBombs(); };
+
+    void DropBomb() { m_sbomb->DropBomb(); };
+
+    //std::vector<DynamicObject*> vecDynamicObj;
+    //std::vector<GameObject*> vecStaticObj;
+    //
+    //bool exitFlag;
+
+    //uint64_t startTime, finishTime, passedTime;
+    //uint16_t bombsNumber, deltaTime, fps;
+    //int16_t score;
+};
+

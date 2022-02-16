@@ -1,19 +1,18 @@
-﻿
-#include <conio.h>
+﻿#include <conio.h>
 
 #include "SBomber.h"
 #include "MyTools.h"
-#include "ScreenSingleton.h"
-#include "FileLoggerSingleton.h"
+#include "FileLogger.h"
 
 using namespace std;
 
+FileLogger logger("log.txt");
 //========================================================================================================================
 
 int main(void)
 {
-    FileLoggerSingleton::getInstance().OpenLogFile("log.txt");
-
+    //MyTools::OpenLogFile("log.txt");
+    //FileLogger logger("log.txt");
     SBomber game;
 
     do {
@@ -24,7 +23,7 @@ int main(void)
             game.ProcessKBHit();
         }
 
-        ScreenSingleton::getInstance().ClrScr();
+        MyTools::ClrScr();
 
         game.DrawFrame();
         game.MoveObjects();
@@ -34,7 +33,7 @@ int main(void)
 
     } while (!game.GetExitFlag());
 
-    FileLoggerSingleton::getInstance().CloseLogFile();
+    //MyTools::CloseLogFile();
 
     return 0;
 }
