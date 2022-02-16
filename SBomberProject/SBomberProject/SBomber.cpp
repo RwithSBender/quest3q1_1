@@ -301,8 +301,43 @@ void SBomberImpl::ProcessKBHit()
         DropBomb();
         break;
 
+    case 'd':
+        CloneObj();
+        break;
+
+    case 'D':
+        CloneObj();
+        break;
+
     default:
         break;
+    }
+}
+
+void SBomberImpl::CloneObj()
+{
+    vector<DestroyableGroundObject*> vecDestoyableObjects = FindDestoyableGroundObjects();
+    int size = vecDestoyableObjects.size();
+    srand(time(NULL));
+    DestroyableGroundObject* obj = vecDestoyableObjects[rand() % size];
+    DestroyableGroundObject* new_obj = obj->clone();
+    int width = new_obj->GetWidth();
+    int x1, x2;
+    x2 = GetMaxX();
+    while (x2 - width >= 10)
+    {
+        x2--;
+        x1 = x2 - width;
+        bool f = 0;
+        for (auto it : vecDestoyableObjects)
+        {
+            if (it->isInside(x1, x2)) f = 1;
+        }
+        if (!f) {
+            new_obj->SetPos(x1, GetMaxY() - 6);
+            vecStaticObj.push_back(new_obj);
+            break;
+        }
     }
 }
 
